@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ptnindo</string>
+    <string name="content_empty">Empty Content</string>
+    <string name="favorite_empty">Empty Favorite</string>
+    <string name="david_profile">Image David Profile</string>
+    <string name="about_title">About David Nasrulloh</string>
+    <string name="nama">David Nasrulloh</string>
+    <string name="email">davidkrb52@gmail.com</string>
 </resources>
