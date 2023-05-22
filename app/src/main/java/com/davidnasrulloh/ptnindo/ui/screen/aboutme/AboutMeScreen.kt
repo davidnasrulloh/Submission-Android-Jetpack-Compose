@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -21,8 +23,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +40,7 @@ import com.davidnasrulloh.ptnindo.ui.theme.PtnindoTheme
 fun AboutMeScreen(
     navigateBackButton: () -> Unit,
     modifier: Modifier = Modifier
+        .testTag("about_page")
 ) {
     Surface(
         modifier = Modifier
@@ -48,7 +53,7 @@ fun AboutMeScreen(
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(R.drawable.foto_nonformal_david),
+                painter = painterResource(R.drawable.david),
                 contentDescription = stringResource(R.string.david_profile),
                 modifier = Modifier
                     .size(200.dp)
@@ -58,16 +63,19 @@ fun AboutMeScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(8.dp)
                     .align(Alignment.TopStart)
             ) {
                 IconButton(
                     onClick = navigateBackButton,
                     modifier = Modifier
+                        .padding(4.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(Color.Blue)
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        tint = Color.Black,
+                        tint = Color.White,
                         contentDescription = "back",
                     )
                 }
@@ -75,8 +83,10 @@ fun AboutMeScreen(
                 Text(
                     text = stringResource(R.string.about_title),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    color = Color.Black
+                    fontSize = 24.sp,
+                    color = Color.Blue,
+                    modifier = modifier
+                        .fillMaxWidth()
                 )
             }
             Column(
@@ -100,7 +110,7 @@ fun AboutMeScreen(
                     text = stringResource(R.string.email),
                     color = Color.Black,
                     style = MaterialTheme.typography.h6.copy(
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Bold
                     ),
                     modifier = modifier
                         .padding(4.dp)

@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,12 +33,45 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.davidnasrulloh.ptnindo.di.Injection
+import com.davidnasrulloh.ptnindo.ui.screen.ViewModelFactory
+import com.davidnasrulloh.ptnindo.ui.screen.beranda.BerandaViewModel
 import com.davidnasrulloh.ptnindo.ui.theme.PtnindoTheme
+import com.davidnasrulloh.ptnindo.ui.utils.UiState
 
 @Composable
-fun DetailUnivScreen () {
-
+fun DetailUnivScreen (
+    univId: Int,
+    navigateBack: () -> Unit,
+    viewModel: DetailUnivViewModel = viewModel(
+        factory = ViewModelFactory(Injection.provideUnivRepository())
+    )
+) {
+    viewModel.uiStateDetailUniv.collectAsState(initial = UiState.Loading).value.let { uiState ->
+        when(uiState){
+            is UiState.Loading -> {
+                viewModel.getUnivDataById(univId)
+            }
+            is UiState.Success -> {
+                val item = uiState.data
+                DetailContentUniv(
+                    id = item.id,
+                    name = item.name,
+                    description = item.description,
+                    location = item.location,
+                    imgUrl = item.imgUrl,
+                    isFavorite = item.isFavorite,
+                    navigateBack = navigateBack ,
+                    onFavIconClicked = { id, new ->
+                        viewModel.updateUnivData(id, new)
+                    }
+                )
+            }
+            is UiState.Error -> {}
+        }
+    }
 }
 
 
@@ -57,7 +91,6 @@ fun DetailContentUniv(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(12.dp)
     ) {
         Row(
             modifier = modifier
@@ -67,20 +100,22 @@ fun DetailContentUniv(
             IconButton(
                 onClick = navigateBack,
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(12.dp)
                     .clip(CircleShape)
                     .size(40.dp)
-                    .background(Color.White),
+                    .background(Color.Blue),
 
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack ,
-                    contentDescription = "Back" )
+                    contentDescription = "Back",
+                    tint = Color.White
+                )
             }
             IconButton(
                 onClick = { onFavIconClicked(id, isFavorite) },
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(12.dp)
                     .clip(CircleShape)
                     .size(40.dp)
                     .background(Color.White)
@@ -103,6 +138,7 @@ fun DetailContentUniv(
         Spacer(modifier = modifier.height(12.dp))
         Column(
             modifier = modifier
+                .padding(12.dp)
                 .fillMaxWidth()
         ) {
             Text(
@@ -142,7 +178,7 @@ fun DetailContentUniv(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = description,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Normal,
                 fontSize = 18.sp,
                 modifier = modifier
                     .fillMaxWidth()

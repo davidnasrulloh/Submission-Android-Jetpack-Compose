@@ -5,11 +5,8 @@ import com.davidnasrulloh.ptnindo.model.Univ
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class UnivRepository @Inject constructor() : LocalSource {
+class UnivRepository : LocalSource {
 
     private val univData = mutableListOf<Univ>()
 
@@ -18,7 +15,7 @@ class UnivRepository @Inject constructor() : LocalSource {
             univData.addAll(DummyUnivData.dummyUnivData)
         }
     }
-    override fun getUnivData() = flow {
+    override fun getAllUnivData() = flow {
         emit(univData)
     }
 
@@ -40,6 +37,18 @@ class UnivRepository @Inject constructor() : LocalSource {
              false
          }
         return flowOf(resultData)
+    }
+
+    companion object {
+        @Volatile
+        private var instance: UnivRepository? = null
+
+        fun getInstance(): UnivRepository =
+            instance ?: synchronized(this) {
+                UnivRepository().apply {
+                    instance = this
+                }
+            }
     }
 
 }

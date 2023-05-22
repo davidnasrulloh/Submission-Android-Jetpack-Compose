@@ -1,5 +1,6 @@
 package com.davidnasrulloh.ptnindo.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -42,8 +44,8 @@ fun UnivItemCard(
 ) {
     Surface(
         modifier = modifier
-            .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-            .padding(8.dp),
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp)),
         elevation = 4.dp,
     ){
         Column(
@@ -87,12 +89,13 @@ fun UnivItemCard(
                     contentDescription = null,
                     tint = if (!isFavorite) Color.Black else Color.Red,
                     modifier = Modifier
+                        .clickable { onFavIconClick(id, !isFavorite) }
                         .padding(2.dp)
                         .size(24.dp)
                         .testTag("fav_button")
-                        .clickable { onFavIconClick(id, !isFavorite) }
                 )
             }
+            Divider(color = Color.Black, thickness = 2.dp)
         }
     }
 

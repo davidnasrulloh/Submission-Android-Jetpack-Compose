@@ -4,7 +4,7 @@ import com.davidnasrulloh.ptnindo.model.Univ
 import kotlinx.coroutines.flow.Flow
 
 interface LocalSource {
-    fun getUnivData(): Flow<List<Univ>>
+    fun getAllUnivData(): Flow<List<Univ>>
 
     fun getUnivDataById(id: Int): Flow<Univ>
 

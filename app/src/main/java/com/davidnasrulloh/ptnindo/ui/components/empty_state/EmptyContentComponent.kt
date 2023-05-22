@@ -21,7 +21,9 @@ import com.davidnasrulloh.ptnindo.R
 import com.davidnasrulloh.ptnindo.ui.theme.PtnindoTheme
 
 @Composable
-fun EmptyStateComponent() {
+fun EmptyContentComponent(
+    modifier: Modifier = Modifier
+) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -52,8 +54,8 @@ fun EmptyStateComponent() {
 
 @Preview(showBackground = true)
 @Composable
-fun EmptyStateComponentPreview() {
+fun EmptyContentComponentPreview() {
     PtnindoTheme() {
-        EmptyStateComponent()
+        EmptyContentComponent()
     }
 }
